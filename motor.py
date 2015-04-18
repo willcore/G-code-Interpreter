@@ -41,8 +41,9 @@ class motor(object):
 				
 		steps = 0.0
 		traveled = 0.0
-		end = param/0.6269 # see documentation for logic in tranlating param to mm
-		
+		end = param*5 # see documentation for logic in tranlating param to mm
+		if self.ID == 'z':
+			end = end*2
 		# print("Attempting to STEP and DIR ", self.STEP, self.DIR)
 		print("Starting", self.ID)
 		try:
@@ -90,7 +91,7 @@ class motor(object):
 				
 		steps = 0.0
 		traveled = 0.0
-		end = param/0.6269 # see documentation for logic in tranlating param to mm
+		end = param*5 # see documentation for logic in tranlating param to mm
 		
 		# print("Attempting to STEP and DIR ", self.STEP, self.DIR)
 		print("Starting", self.ID)
@@ -125,7 +126,7 @@ class motor(object):
 	
 		steps = 0.0
 		traveled = 0.0
-		end = param/0.6269 # see documentation for logic in tranlating param to mm
+		end = param*5 # see documentation for logic in tranlating param to mm
 		
 		try:
 			while steps <= end:
