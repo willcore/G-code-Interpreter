@@ -73,7 +73,7 @@ class motor(object):
 
 
 
-	def moveExtruder(self,param):
+	def moveExtruder(self,param, myPos):
 		# we assume our incoming param is in mm for our printrbot prints
 		
 	
@@ -111,6 +111,7 @@ class motor(object):
 				traveled = traveled + .31345
 		 
 		finally:
+			print "fin"
 			# GPIO.cleanup()		 # clear pulses from pins
 	
 	def simpleMove(self, param, direc):
@@ -144,7 +145,6 @@ class motor(object):
 				traveled = traveled + .31345
 		 
 		finally:
+			print "fin"
 			# GPIO.cleanup()		 # clear pulses from pins
 
-
- 
