@@ -44,7 +44,14 @@ class motor(object):
 
 		end = param*80 # see documentation for logic in tranlating param to mm -- 1/16th step
 		if self.ID == 'z':	# TODO need to clean up Z movement value
-			end = end*2
+			end = end*2560
+		
+		mmPerSecMove = Vars.feedrate/60
+		print("Current FeedRate ", Vars.feedrate)
+		print("Rate of mm per sec movement", mmPerSecMove)
+		sleepTime = 1 / (80*16*mmPerSecMove)
+		print("sleepTime: ", sleepTime)
+		
 		# print("Attempting to STEP and DIR ", self.STEP, self.DIR)
 		print("Starting", self.ID)
 		try:
@@ -53,12 +60,12 @@ class motor(object):
 				GPIO.output(self.DIR, DIR)	 # A4988 Stepper Driver DIR
 				
 				GPIO.output(self.STEP, 1)
-				sleep(0.005) 			 # an artistic choice for now
+				sleep(sleepTime) 			 # an artistic choice for now
 				steps = steps +.5 		 # taking a half-step	
 				# traveled = traveled + .31345	 # mm traveled per half-step
 				
 				GPIO.output(self.STEP, 0)
-				sleep(0.005)
+				sleep(sleepTime)
 				steps = steps +.5
 				# traveled = traveled + .31345
 		 
