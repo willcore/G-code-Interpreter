@@ -216,14 +216,30 @@ def p_gCommand_gWord(p):
                 | COMMENT'''
 
     if (p[1] == 'G1') | (p[1] == 'G0'):
-        '''if len(p) == 4:
+        if len(p) == 4:
             print("G1 - MOVE ", p[2], p[3])
-            #  Vars.motorMove(p[3])'''
+	    # test = [p[2],p[3]] #specialty one command case
+	    if p[2] == 'F':
+		Vars.feedrate = p[3]
+		
+	    if p[2] == 'X':
+		motors[0].move(p[3], pos.x)
+    	    
+	    if p[2] == 'Y':
+		motors[1].move(p[3], pos.y)
+	   
+	    if p[2] == 'Z':
+		motors[2].move(p[3], pos.z)
+	   
+	    if p[2] == 'E':
+		motors[0].moveExtruder(p[3], pos.z)
+
+	    GPIO.cleanup()
+
         if len(p) == 6:
       	    #  print("Current position", pos.x, pos.y, pos.z )
             print("G1 - MOVE ", p[2], p[3], p[4], p[5])
-            # print("Entering TEST ZONE")
-	    test = [p[2], p[3], p[4], p[5]]
+            test = [p[2], p[3], p[4], p[5]]
 	    # threader.parseIntoThread(test)
 	    order = threader.organizeParams(test)
 	    # print("Back in main, Order[0] aka X is ", order[0])
@@ -800,15 +816,6 @@ def p_error(t):
     print("Syntax error at '%s'" % t.value)
 
 
-import ply.yacc as yacc
-parser = yacc.yacc()
-
-'''f = open('lexTest.g', 'r')
-for lin in f:
-    s1= lin
-    lex.input(s1)
-    for tok in lexer:
-        print tok'''
 
 import sys		# to read in cmd args
 import threading	# run concurrent motors
@@ -826,6 +833,17 @@ motors[0] = motor("x", Vars.xDIR, Vars.xSTEP)
 motors[1] = motor("y", Vars.yDIR, Vars.ySTEP)
 motors[2] = motor("z", Vars.zDIR, Vars.zSTEP)
 motors[3] = motor("e", Vars.yDIR, Vars.ySTEP)
+
+import ply.yacc as yacc
+parser = yacc.yacc()
+
+'''f = open('lexTest.g', 'r')
+for lin in f:
+    s1= lin
+    lex.input(s1)
+    for tok in lexer:
+        print tok'''
+
 f = open(sys.argv[1], 'r')
 
 for line in f:
