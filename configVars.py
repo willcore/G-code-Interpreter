@@ -17,8 +17,8 @@ xDIR = 21
 ySTEP = 12 
 yDIR = 16
 
-zSTEP = 35 
-zDIR = 37
+zSTEP = 19 
+zDIR = 26
 
 eSTEP = 31
 eDIR = 33

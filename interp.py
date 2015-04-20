@@ -224,16 +224,18 @@ def p_gCommand_gWord(p):
 		
 	    if p[2] == 'X':
 		motors[0].move(p[3], pos.x)
-    	    
+    	   	pos.updateX(p[3]) 
 	    if p[2] == 'Y':
 		motors[1].move(p[3], pos.y)
-	   
+	   	pos.updateY(p[3])
 	    if p[2] == 'Z':
-		motors[2].move(p[3], pos.z)
-	   
+		motors[2].moveZ(p[3], pos.z)
+	   	pos.updateZ(p[3])
 	    if p[2] == 'E':
 		motors[0].moveExtruder(p[3], pos.z)
 
+	    
+            print("Current position", pos.x, pos.y, pos.z)
 	    GPIO.cleanup()
 
         if len(p) == 6:
@@ -256,7 +258,7 @@ def p_gCommand_gWord(p):
 		# t2.start()
 		# t2.join()
 	    if order[2] != None:
-		t3 = threading.Thread(target=motors[2].move, args=(order[2], pos.z))
+		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
 		t3.setDaemon(True)
 	    if order[3] != None:
 		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.z))
@@ -322,7 +324,7 @@ def p_gCommand_gWord(p):
 	    	t2.setDaemon(True)
 		
 	    if order[2] != None:
-			t3 = threading.Thread(target=motors[2].move, args=(order[2], pos.z))
+			t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
 			t3.setDaemon(True)
 
 	    if order[3] != None:
@@ -387,7 +389,7 @@ def p_gCommand_gWord(p):
 	    	t2.setDaemon(True)
 		
 	    if order[2] != None:
-		t3 = threading.Thread(target=motors[2].move, args=(order[2], pos.z))
+		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
 		t3.setDaemon(True)
 
 	    if order[3] != None:
@@ -452,7 +454,7 @@ def p_gCommand_gWord(p):
 	    	t2.setDaemon(True)
 		
 	    if order[2] != None:
-		t3 = threading.Thread(target=motors[2].move, args=(order[2], pos.z))
+		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
 		t3.setDaemon(True)
 
 	    if order[3] != None:
@@ -518,7 +520,7 @@ def p_gCommand_gWord(p):
 	    	t2.setDaemon(True)
 		
 	    if order[2] != None:
-		t3 = threading.Thread(target=motors[2].move, args=(order[2], pos.z))
+		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
 		t3.setDaemon(True)
 
 	    if order[3] != None:

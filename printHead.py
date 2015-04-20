@@ -20,4 +20,12 @@ class PrintHead:
         	self.x = x
         	self.y = y
         	self.z = z
+	
+	def updateX(self, x):
+		self.x = x
 
+	def updateY(self, y):
+		self.y = y
+	
+	def updateZ(self, z):
+		self.z = z
