@@ -218,7 +218,7 @@ def p_gCommand_gWord(p):
     if (p[1] == 'G1') | (p[1] == 'G0'):
         if len(p) == 4:
             print("G1 - MOVE ", p[2], p[3])
-	    # test = [p[2],p[3]] #specialty one command case
+	    
 	    if p[2] == 'F':
 		Vars.feedrate = p[3]
 		
@@ -231,35 +231,32 @@ def p_gCommand_gWord(p):
 	    if p[2] == 'Z':
 		motors[2].moveZ(p[3], pos.z)
 	   	pos.updateZ(p[3])
+		print("updated z to new pos!: ", pos.z)
 	    if p[2] == 'E':
 		motors[0].moveExtruder(p[3], pos.z)
-
-	    
-            print("Current position", pos.x, pos.y, pos.z)
+	   
+            print("Singular Command -- Current position", pos.x, pos.y, pos.z)
 	    GPIO.cleanup()
 
         if len(p) == 6:
-      	    #  print("Current position", pos.x, pos.y, pos.z )
+      	    
             print("G1 - MOVE ", p[2], p[3], p[4], p[5])
             test = [p[2], p[3], p[4], p[5]]
-	    # threader.parseIntoThread(test)
+	    
 	    order = threader.organizeParams(test)
-	    # print("Back in main, Order[0] aka X is ", order[0])
-	    # print("Back in main, Order[1] aka Y is ", order[1])
-	    # print("END TEST PHASE")
+	    
 	    if order[0] != None:
 	    	t1 = threading.Thread(target=motors[0].move, args=(order[0], pos.x))
 	    	t1.setDaemon(True) #DThread to hold main?
-		# t1.start()
-		# t1.join()
+		pos.updateX(order[0])  
 	    if order[1] != None:
 	    	t2 = threading.Thread(target=motors[1].move, args=(order[1], pos.y))
 	    	t2.setDaemon(True)
-		# t2.start()
-		# t2.join()
+		pos.updateY(order[1]) 
 	    if order[2] != None:
 		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
 		t3.setDaemon(True)
+		post.updateZ(order[2])
 	    if order[3] != None:
 		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.z))
 		t4.setDaemon(True)
@@ -268,65 +265,62 @@ def p_gCommand_gWord(p):
 
 	    try:
 	    	t1.start()
-		# t1.join()
-	    except: print "no recorded X value"
+	    except:  pass
 	    
 	    try:
 	    	t2.start()
-	    	# t2.join()
-	    except: print "no recorded Y value"
+
+	    except:  pass
 
 	    try:
 		t3.start()
-		# t3.join()
-	    except: print "no recorded Z value"
+
+	    except:  pass
 	    
 	    try:
 		t4.start()
-		# t4.join()
-	    except: print "no recorded E value"
+
+	    except:  pass
 		
 	    try:
 	    	t1.join()
-	    except: print "no recorded X value"
+	    except:  pass
 	    
 	    try:
 	    	t2.join()
-	    except: print "no recorded Y value"
+	    except:  pass
 
 	    try:
 		t3.join()
-	    except: print "no recorded Z value"
+	    except:  pass
 	    
 	    try:
 		t4.join()
-	    except: print "no recorded E value"
+	    except:  pass
 	    GPIO.cleanup()
            
 	    order = threader.zeroOut(order)
-	    pos.update(order[0],order[1],order[2])
+	    
         print("Current position", pos.x, pos.y, pos.z)
 	   
         if len(p) == 8:
             print("G1 - MOVE ", p[2], p[3], p[4], p[5], p[6], p[7])
 	
-      	    #  print("Current position", pos.x, pos.y, pos.z )
-            
             test = [p[2], p[3], p[4], p[5], p[6], p[7]]
 	    order = threader.organizeParams(test)
 	    
 	    if order[0] != None:
 	    	t1 = threading.Thread(target=motors[0].move, args=(order[0], pos.x))
 	    	t1.setDaemon(True) #DThread to hold main?
-	
+		pos.updateX(order[0])	
 	    if order[1] != None:
 	    	t2 = threading.Thread(target=motors[1].move, args=(order[1], pos.y))
 	    	t2.setDaemon(True)
-		
+		pos.updateY(order[1])
 	    if order[2] != None:
 			t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
 			t3.setDaemon(True)
-
+			pos.updateZ(order[2])
 	    if order[3] != None:
 			t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.z))
 			t4.setDaemon(True)
@@ -336,62 +330,60 @@ def p_gCommand_gWord(p):
 
 	    try:
 	    	t1.start()
-	    except: print "no recorded X value"
+	    except:  pass
 	    
 	    try:
 	    	t2.start()
-	    except: print "no recorded Y value"
+	    except:  pass
 
 	    try:
 		t3.start()
-	    except: print "no recorded Z value"
+	    except:  pass
 	    
 	    try:
 		t4.start()
-	    except: print "no recorded E value"
+	    except:  pass
 		
 	    try:
 	    	t1.join()
-	    except: print "no recorded X value"
+	    except:  pass
 	    
 	    try:
 	    	t2.join()
-	    except: print "no recorded Y value"
+	    except:  pass
 
 	    try:
 		t3.join()
-	    except: print "no recorded Z value"
+	    except:  pass
 	    
 	    try:
 		t4.join()
-	    except: print "no recorded E value"
+	    except:  pass
 	    
 	    GPIO.cleanup()
            
 	    order = threader.zeroOut(order)
-	    pos.update(order[0],order[1],order[2])
+	    # pos.update(order[0],order[1],order[2])
             print("Current position", pos.x, pos.y, pos.z)
 
         if len(p) == 10:
             print("G1 - MOVE ", p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9])
 	
-      	    #  print("Current position", pos.x, pos.y, pos.z )
-            
             test = [p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9]]
 	    order = threader.organizeParams(test)
 	    
 	    if order[0] != None:
 	    	t1 = threading.Thread(target=motors[0].move, args=(order[0], pos.x))
 	    	t1.setDaemon(True) #DThread to hold main?
-	
+		pos.updateX(order[0])	
 	    if order[1] != None:
 	    	t2 = threading.Thread(target=motors[1].move, args=(order[1], pos.y))
 	    	t2.setDaemon(True)
-		
+		pos.updateY(order[1])
 	    if order[2] != None:
 		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
 		t3.setDaemon(True)
-
+		pos.updateZ(order[2])
 	    if order[3] != None:
 		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.z))
 		t4.setDaemon(True)
@@ -401,35 +393,35 @@ def p_gCommand_gWord(p):
 
 	    try:
 	    	t1.start()
-	    except: print "no recorded X value"
+	    except: pass
 	    
 	    try:
 	    	t2.start()
-	    except: print "no recorded Y value"
+	    except: pass
 
 	    try:
 		t3.start()
-	    except: print "no recorded Z value"
+	    except: pass
 	    
 	    try:
 		t4.start()
-	    except: print "no recorded E value"
+	    except: pass
 		
 	    try:
 	    	t1.join()
-	    except: print "no recorded X value"
+	    except: pass
 	    
 	    try:
 	    	t2.join()
-	    except: print "no recorded Y value"
+	    except: pass
 
 	    try:
 		t3.join()
-	    except: print "no recorded Z value"
+	    except: pass
 	    
 	    try:
 		t4.join()
-	    except: print "no recorded E value"
+	    except: pass
 	    
 	    GPIO.cleanup()
            
@@ -440,23 +432,21 @@ def p_gCommand_gWord(p):
         if len(p) == 12:
             print("G1 - MOVE ", p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11])
 	       
-      	    #  print("Current position", pos.x, pos.y, pos.z )
-            
             test = [p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11]]
 	    order = threader.organizeParams(test)
 	    
 	    if order[0] != None:
 	    	t1 = threading.Thread(target=motors[0].move, args=(order[0], pos.x))
 	    	t1.setDaemon(True) #DThread to hold main?
-	
+		pos.updateX(order[0])
 	    if order[1] != None:
 	    	t2 = threading.Thread(target=motors[1].move, args=(order[1], pos.y))
 	    	t2.setDaemon(True)
-		
+		pos.updateY(order[1])
 	    if order[2] != None:
 		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
 		t3.setDaemon(True)
-
+		pos.updateZ(order[2])
 	    if order[3] != None:
 		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.z))
 		t4.setDaemon(True)
@@ -466,63 +456,61 @@ def p_gCommand_gWord(p):
 
 	    try:
 	    	t1.start()
-	    except: print "no recorded X value"
+	    except: pass
 	    
 	    try:
 	    	t2.start()
-	    except: print "no recorded Y value"
+	    except: pass
 
 	    try:
 		t3.start()
-	    except: print "no recorded Z value"
+	    except: pass
 	    
 	    try:
 		t4.start()
-	    except: print "no recorded E value"
+	    except: pass
 		
 	    try:
 	    	t1.join()
-	    except: print "no recorded X value"
+	    except: pass
 	    
 	    try:
 	    	t2.join()
-	    except: print "no recorded Y value"
+	    except: pass
 
 	    try:
 		t3.join()
-	    except: print "no recorded Z value"
+	    except: pass
 	    
 	    try:
 		t4.join()
-	    except: print "no recorded E value"
+	    except: pass
 	    
 	    GPIO.cleanup()
            
 	    order = threader.zeroOut(order)
-	    pos.update(order[0],order[1],order[2])
+	    # pos.update(order[0],order[1],order[2])
             print("Current position", pos.x, pos.y, pos.z)
 
 	if len(p) == 14:
             print("G1 - MOVE ", p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11],
                   p[12], p[13])
 	    	
-      	    #  print("Current position", pos.x, pos.y, pos.z )
-            
             test = [p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[13]]
 	    order = threader.organizeParams(test)
 	    
 	    if order[0] != None:
 	    	t1 = threading.Thread(target=motors[0].move, args=(order[0], pos.x))
 	    	t1.setDaemon(True) #DThread to hold main?
-	
+		pos.updateX(order[0])	
 	    if order[1] != None:
 	    	t2 = threading.Thread(target=motors[1].move, args=(order[1], pos.y))
 	    	t2.setDaemon(True)
-		
+		pos.updateY(order[1])
 	    if order[2] != None:
 		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
 		t3.setDaemon(True)
-
+		pos.updateZ(order[2])
 	    if order[3] != None:
 		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.z))
 		t4.setDaemon(True)
@@ -532,43 +520,41 @@ def p_gCommand_gWord(p):
 
 	    try:
 	    	t1.start()
-	    except: print "no recorded X value"
+	    except: pass
 	    
 	    try:
 	    	t2.start()
-	    except: print "no recorded Y value"
+	    except: pass
 
 	    try:
 		t3.start()
-	    except: print "no recorded Z value"
+	    except: pass
 	    
 	    try:
 		t4.start()
-	    except: print "no recorded E value"
+	    except: pass
 		
 	    try:
 	    	t1.join()
-	    except: print "no recorded X value"
+	    except: pass
 	    
 	    try:
 	    	t2.join()
-	    except: print "no recorded Y value"
+	    except: pass
 
 	    try:
 		t3.join()
-	    except: print "no recorded Z value"
+	    except: pass
 	    
 	    try:
 		t4.join()
-	    except: print "no recorded E value"
+	    except: pass
 	    
 	    GPIO.cleanup()
            
 	    order = threader.zeroOut(order)
-	    pos.update(order[0],order[1],order[2])
+	    # pos.update(order[0],order[1],order[2])
             print("Current position", pos.x, pos.y, pos.z)
-
-
 
     if p[1] == 'G4':
         if p[2] == 'P':

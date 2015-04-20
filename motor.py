@@ -47,10 +47,10 @@ class motor(object):
 	
 		
 		mmPerSecMove = Vars.feedrate/60
-		print("Current FeedRate ", Vars.feedrate)
-		print("Rate of mm per sec movement", mmPerSecMove)
+		# print("Current FeedRate ", Vars.feedrate)
+		# print("Rate of mm per sec movement", mmPerSecMove)
 		sleepTime = 1 / (80*16*mmPerSecMove)
-		print("sleepTime: ", sleepTime)
+		# print("sleepTime: ", sleepTime)
 		
 		# print("Attempting to STEP and DIR ", self.STEP, self.DIR)
 		print("Starting", self.ID)
@@ -74,8 +74,8 @@ class motor(object):
 			
 			#post-mortem of motor moves
 			'''print("read in parameter[mm] of ", param)
-			print("Our step goal: ", end)
-			print("We Stepped ", steps)
+			#print("Our step goal: ", end)
+			#print("We Stepped ", steps)
 			# print("Traveled [mm]: ", traveled)'''
 			print("Finished! ", self.ID, "steps moved: ", steps)
 
@@ -91,7 +91,9 @@ class motor(object):
 				
 		# Depending on last position of the head, our direction may change on the coord plane
 		DIR = 1  # assuming clockwise
+
 		param = param - myPosition
+		print( "going to move this guy ", param)
 
 		if(param < 0.0):
 			DIR = 0
@@ -102,16 +104,14 @@ class motor(object):
 
 		end = param*2560 # see documentation for logic in tranlating param to mm -- 1/16th step
 
-	
-		
 		mmPerSecMove = Vars.feedrate/60
-		print("Current FeedRate ", Vars.feedrate)
-		print("Rate of mm per sec movement", mmPerSecMove)
+		# print("Current FeedRate ", Vars.feedrate)
+		# print("Rate of mm per sec movement", mmPerSecMove)
 		sleepTime = 1 / (80*16*mmPerSecMove)
-		print("sleepTime: ", sleepTime)
+		# print("sleepTime: ", sleepTime)
 		
 		# print("Attempting to STEP and DIR ", self.STEP, self.DIR)
-		print("Starting", self.ID)
+		# print("Starting", self.ID)
 		try:
 			while steps <= end:
 				
@@ -120,28 +120,25 @@ class motor(object):
 				GPIO.output(self.STEP, 1)
 				sleep(sleepTime) 			 # an artistic choice for now
 				steps = steps +.5 		 # taking a half-step	
-				# traveled = traveled + .31345	 # mm traveled per half-step
 				
 				GPIO.output(self.STEP, 0)
 				sleep(sleepTime)
 				steps = steps +.5
-				# traveled = traveled + .31345
-		 
+				
 		finally:
 			# GPIO.cleanup()		 # clear pulses from pins
 			
 			#post-mortem of motor moves
 			'''print("read in parameter[mm] of ", param)
-			print("Our step goal: ", end)
-			print("We Stepped ", steps)
+			# print("Our step goal: ", end)
+			# print("We Stepped ", steps)
 			# print("Traveled [mm]: ", traveled)'''
-			print("Finished! ", self.ID, "steps moved: ", steps)
+			# print("Finished! ", self.ID, "steps moved: ", steps)
 
 	
 	def moveDeprecated(self,param, myPosition):
 		# we assume our incoming param is in mm for our printrbot prints
 		
-	
 		GPIO.setmode(GPIO.BCM)
 				
 		GPIO.setup(self.DIR, GPIO.OUT)
@@ -161,7 +158,7 @@ class motor(object):
 		if self.ID == 'z':
 			end = end*2
 		# print("Attempting to STEP and DIR ", self.STEP, self.DIR)
-		print("Starting", self.ID)
+		# print("Starting", self.ID)
 		try:
 			while steps <= end:
 				
@@ -190,7 +187,6 @@ class motor(object):
 	def moveExtruder(self,param, myPos):
 		# we assume our incoming param is in mm for our printrbot prints
 		
-	
 		GPIO.setmode(GPIO.BCM)
 				
 		GPIO.setup(self.DIR, GPIO.OUT)
