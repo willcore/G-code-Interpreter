@@ -256,7 +256,7 @@ def p_gCommand_gWord(p):
 	    if order[2] != None:
 		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
 		t3.setDaemon(True)
-		post.updateZ(order[2])
+		pos.updateZ(order[2])
 	    if order[3] != None:
 		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.z))
 		t4.setDaemon(True)
@@ -567,7 +567,7 @@ def p_gCommand_gWord(p):
 
     if p[1] == 'G28':
         print("G28- MOVE TO ORIGIN, capture doesnt matter for RepRep")
-	# returnHome.returnHome(motors) # Needs direct testing with serial switch
+	returnHome.returnHome(motors) # Needs direct testing with serial switch
 
     if p[1] == 'G92':
         # A G92 without coordinates will reset all axes to zero.
