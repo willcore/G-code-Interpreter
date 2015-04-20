@@ -91,7 +91,7 @@ class motor(object):
 				
 		# Depending on last position of the head, our direction may change on the coord plane
 		DIR = 1  # assuming clockwise
-		# param = param - myPosition
+		param = param - myPosition
 
 		if(param < 0.0):
 			DIR = 0
