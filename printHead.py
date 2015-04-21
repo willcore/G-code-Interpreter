@@ -9,6 +9,7 @@ class PrintHead:
         	self.x = 0.0
         	self.y = 0.0
         	self.z = 0.0
+		self.e = 0.0
 
 	def get_x(self):
         	return self.x
@@ -29,3 +30,6 @@ class PrintHead:
 	
 	def updateZ(self, z):
 		self.z = z
+
+	def updateE(self, e):
+		self.e = e

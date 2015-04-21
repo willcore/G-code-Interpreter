@@ -233,8 +233,8 @@ def p_gCommand_gWord(p):
 	   	pos.updateZ(p[3])
 		print("updated z to new pos!: ", pos.z)
 	    if p[2] == 'E':
-		motors[0].moveExtruder(p[3], pos.z)
-	   
+		motors[0].moveExtruder(p[3], pos.e)
+	  	pos.updateE(p[3]) 
             print("Singular Command -- Current position", pos.x, pos.y, pos.z)
 	    GPIO.cleanup()
 
@@ -258,8 +258,9 @@ def p_gCommand_gWord(p):
 		t3.setDaemon(True)
 		pos.updateZ(order[2])
 	    if order[3] != None:
-		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.z))
+		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.e))
 		t4.setDaemon(True)
+		pos.updateE(order[3])
 	    if order[4] != None:
 		Vars.feedrate = order[4]
 
@@ -322,9 +323,9 @@ def p_gCommand_gWord(p):
 			t3.setDaemon(True)
 			pos.updateZ(order[2])
 	    if order[3] != None:
-			t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.z))
+			t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.e))
 			t4.setDaemon(True)
-		
+			pos.updateE(order[3])
 	    if order[4] != None:
 			Vars.feedrate = order[4]
 
@@ -385,9 +386,9 @@ def p_gCommand_gWord(p):
 		t3.setDaemon(True)
 		pos.updateZ(order[2])
 	    if order[3] != None:
-		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.z))
+		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.e))
 		t4.setDaemon(True)
-	    
+	    	pos.updateE(order[3])
 	    if order[4] != None:
 		Vars.feedrate = order[4]
 
@@ -448,8 +449,9 @@ def p_gCommand_gWord(p):
 		t3.setDaemon(True)
 		pos.updateZ(order[2])
 	    if order[3] != None:
-		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.z))
+		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.e))
 		t4.setDaemon(True)
+		pos.updateE(order[3])
 	    
 	    if order[4] != None:
 		Vars.feedrate = order[4]
@@ -512,8 +514,9 @@ def p_gCommand_gWord(p):
 		t3.setDaemon(True)
 		pos.updateZ(order[2])
 	    if order[3] != None:
-		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.z))
+		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.e))
 		t4.setDaemon(True)
+		pos.updateE(order[3])
 	    
 	    if order[4] != None:
 		Vars.feedrate = order[4]
@@ -821,7 +824,7 @@ motors = [None]*4
 motors[0] = motor("x", Vars.xDIR, Vars.xSTEP)
 motors[1] = motor("y", Vars.yDIR, Vars.ySTEP)
 motors[2] = motor("z", Vars.zDIR, Vars.zSTEP)
-motors[3] = motor("e", Vars.yDIR, Vars.ySTEP)
+motors[3] = motor("e", Vars.eDIR, Vars.eSTEP)
 
 import ply.yacc as yacc
 parser = yacc.yacc()
@@ -834,8 +837,11 @@ for lin in f:
         print tok'''
 
 f = open(sys.argv[1], 'r')
+num = 0
 
 for line in f:
     s = line
     # print(s)
     parser.parse(s)
+    print num
+    num = num +1

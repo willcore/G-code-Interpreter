@@ -34,7 +34,8 @@ class motor(object):
 		# Depending on last position of the head, our direction may change on the coord plane
 		DIR = 1  # assuming clockwise
 		param = param - myPosition
-
+		print("About to Move", self.ID, param)
+		
 		if(param < 0.0):
 			DIR = 0
 			param = param*-1
@@ -44,16 +45,16 @@ class motor(object):
 
 		end = param*80 # see documentation for logic in tranlating param to mm -- 1/16th step
 		
-	
-		
 		mmPerSecMove = Vars.feedrate/60
 		# print("Current FeedRate ", Vars.feedrate)
 		# print("Rate of mm per sec movement", mmPerSecMove)
 		sleepTime = 1 / (80*16*mmPerSecMove)
+		# sleepTime = 1 / (80*mmPerSecMove)
+		#sleepTime = .0005
 		# print("sleepTime: ", sleepTime)
 		
 		# print("Attempting to STEP and DIR ", self.STEP, self.DIR)
-		print("Starting", self.ID)
+		# print("Starting", self.ID)
 		try:
 			while steps <= end:
 				
@@ -61,12 +62,12 @@ class motor(object):
 				
 				GPIO.output(self.STEP, 1)
 				sleep(sleepTime) 			 # an artistic choice for now
-				steps = steps +.5 		 # taking a half-step	
+				steps = steps + .5 		 # taking a half-step	
 				# traveled = traveled + .31345	 # mm traveled per half-step
 				
 				GPIO.output(self.STEP, 0)
 				sleep(sleepTime)
-				steps = steps +.5
+				steps = steps + .5
 				# traveled = traveled + .31345
 		 
 		finally:
@@ -77,7 +78,7 @@ class motor(object):
 			#print("Our step goal: ", end)
 			#print("We Stepped ", steps)
 			# print("Traveled [mm]: ", traveled)'''
-			print("Finished! ", self.ID, "steps moved: ", steps)
+			# print("Finished! ", self.ID, "steps moved: ", steps)
 
 	
 	def moveZ(self,param, myPosition):
@@ -119,11 +120,11 @@ class motor(object):
 				
 				GPIO.output(self.STEP, 1)
 				sleep(sleepTime) 			 # an artistic choice for now
-				steps = steps +.5 		 # taking a half-step	
+				steps = steps + .5 		 # taking a half-step	
 				
 				GPIO.output(self.STEP, 0)
 				sleep(sleepTime)
-				steps = steps +.5
+				steps = steps + .5
 				
 		finally:
 			# GPIO.cleanup()		 # clear pulses from pins
@@ -194,14 +195,16 @@ class motor(object):
 				
 		# Depending on last position of the head, our direction may change on the coord plane
 		DIR = 1  # assuming clockwise
-	
+		
+		param = param - myPos
+			
 		if(param < 0.0):
 			DIR = 0
 			param = param*-1
 				
 		steps = 0.0
 		traveled = 0.0
-		end = param*5 # see documentation for logic in tranlating param to mm
+		end = param*96 # see documentation for logic in tranlating param to mm
 		
 		# print("Attempting to STEP and DIR ", self.STEP, self.DIR)
 		print("Starting", self.ID)
@@ -212,13 +215,13 @@ class motor(object):
 				
 				GPIO.output(self.STEP, 1)
 				sleep(0.005) 			 # an artistic choice for now
-				steps = steps +.5 		 # taking a half-step	
-				traveled = traveled + .31345	 # mm traveled per half-step
+				steps = steps+ .5 		 # taking a half-step	
+				#traveled = traveled + .31345	 # mm traveled per half-step
 				
 				GPIO.output(self.STEP, 0)
 				sleep(0.005)
-				steps = steps +.5
-				traveled = traveled + .31345
+				steps = steps + .5
+				# traveled = traveled + .31345
 		 
 		finally:
 			print "fin"
