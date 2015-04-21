@@ -23,7 +23,9 @@ zDIR = 26
 eSTEP = 31
 eDIR = 33
 
-stopper = 13 
+xStopper = 13 
+yStopper = 6
+
 
 filamentDiameter = 0.0
 

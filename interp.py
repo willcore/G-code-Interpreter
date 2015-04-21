@@ -567,7 +567,8 @@ def p_gCommand_gWord(p):
 
     if p[1] == 'G28':
         print("G28- MOVE TO ORIGIN, capture doesnt matter for RepRep")
-	returnHome.returnHome(motors) # Needs direct testing with serial switch
+	returnHome.returnHomeX(motors) # Needs direct testing with serial switch
+	returnHome.returnHomeY(motors)
 
     if p[1] == 'G92':
         # A G92 without coordinates will reset all axes to zero.
