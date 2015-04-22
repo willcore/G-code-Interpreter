@@ -233,7 +233,7 @@ def p_gCommand_gWord(p):
 	   	pos.updateZ(p[3])
 		print("updated z to new pos!: ", pos.z)
 	    if p[2] == 'E':
-		motors[0].moveExtruder(p[3], pos.e)
+		motors[3].moveExtruder(p[3], pos.e)
 	  	pos.updateE(p[3]) 
             print("Singular Command -- Current position", pos.x, pos.y, pos.z)
 	    GPIO.cleanup()
