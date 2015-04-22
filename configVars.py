@@ -20,8 +20,8 @@ yDIR = 16
 zSTEP = 19 
 zDIR = 26
 
-eSTEP =5 
-eDIR = 6
+eSTEP =27 
+eDIR = 22
 
 xStopper = 13 
 yStopper = 6
