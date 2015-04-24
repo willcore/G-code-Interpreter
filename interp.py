@@ -1,5 +1,5 @@
 # Note: Will need the Python Module PLY from http://www.dabeaz.com/ply/ to run correctly
-
+import sys, traceback
 import RPi.GPIO as GPIO
 # import tokenize
 import ply.lex as lex
@@ -229,14 +229,14 @@ def p_gCommand_gWord(p):
 		motors[1].move(p[3], pos.y)
 	   	pos.updateY(p[3])
 	    if p[2] == 'Z':
-		motors[2].moveZ(p[3], pos.z)
+		motors[2].move(p[3], pos.z)
 	   	pos.updateZ(p[3])
 		print("updated z to new pos!: ", pos.z)
 	    if p[2] == 'E':
-		motors[3].moveExtruder(p[3], pos.e)
+		motors[3].move(p[3], pos.e)
 	  	pos.updateE(p[3]) 
             print("Singular Command -- Current position", pos.x, pos.y, pos.z)
-	    GPIO.cleanup()
+#	    GPIO.cleanup()
 
         if len(p) == 6:
       	    
@@ -254,11 +254,11 @@ def p_gCommand_gWord(p):
 	    	t2.setDaemon(True)
 		pos.updateY(order[1]) 
 	    if order[2] != None:
-		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
+		t3 = threading.Thread(target=motors[2].move, args=(order[2], pos.z))
 		t3.setDaemon(True)
 		pos.updateZ(order[2])
 	    if order[3] != None:
-		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.e))
+		t4 = threading.Thread(target=motors[3].move, args=(order[3], pos.e))
 		t4.setDaemon(True)
 		pos.updateE(order[3])
 	    if order[4] != None:
@@ -298,7 +298,7 @@ def p_gCommand_gWord(p):
 	    try:
 		t4.join()
 	    except:  pass
-	    GPIO.cleanup()
+#	    GPIO.cleanup()
            
 	    order = threader.zeroOut(order)
 	    
@@ -319,11 +319,11 @@ def p_gCommand_gWord(p):
 	    	t2.setDaemon(True)
 		pos.updateY(order[1])
 	    if order[2] != None:
-			t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
+			t3 = threading.Thread(target=motors[2].move, args=(order[2], pos.z))
 			t3.setDaemon(True)
 			pos.updateZ(order[2])
 	    if order[3] != None:
-			t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.e))
+			t4 = threading.Thread(target=motors[3].move, args=(order[3], pos.e))
 			t4.setDaemon(True)
 			pos.updateE(order[3])
 	    if order[4] != None:
@@ -361,7 +361,7 @@ def p_gCommand_gWord(p):
 		t4.join()
 	    except:  pass
 	    
-	    GPIO.cleanup()
+#	    GPIO.cleanup()
            
 	    order = threader.zeroOut(order)
 	    # pos.update(order[0],order[1],order[2])
@@ -382,11 +382,11 @@ def p_gCommand_gWord(p):
 	    	t2.setDaemon(True)
 		pos.updateY(order[1])
 	    if order[2] != None:
-		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
+		t3 = threading.Thread(target=motors[2].move, args=(order[2], pos.z))
 		t3.setDaemon(True)
 		pos.updateZ(order[2])
 	    if order[3] != None:
-		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.e))
+		t4 = threading.Thread(target=motors[3].move, args=(order[3], pos.e))
 		t4.setDaemon(True)
 	    	pos.updateE(order[3])
 	    if order[4] != None:
@@ -424,7 +424,7 @@ def p_gCommand_gWord(p):
 		t4.join()
 	    except: pass
 	    
-	    GPIO.cleanup()
+#	    GPIO.cleanup()
            
 	    order = threader.zeroOut(order)
 	    pos.update(order[0],order[1],order[2])
@@ -445,11 +445,11 @@ def p_gCommand_gWord(p):
 	    	t2.setDaemon(True)
 		pos.updateY(order[1])
 	    if order[2] != None:
-		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
+		t3 = threading.Thread(target=motors[2].move, args=(order[2], pos.z))
 		t3.setDaemon(True)
 		pos.updateZ(order[2])
 	    if order[3] != None:
-		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.e))
+		t4 = threading.Thread(target=motors[3].move, args=(order[3], pos.e))
 		t4.setDaemon(True)
 		pos.updateE(order[3])
 	    
@@ -488,7 +488,7 @@ def p_gCommand_gWord(p):
 		t4.join()
 	    except: pass
 	    
-	    GPIO.cleanup()
+#	    GPIO.cleanup()
            
 	    order = threader.zeroOut(order)
 	    # pos.update(order[0],order[1],order[2])
@@ -510,11 +510,11 @@ def p_gCommand_gWord(p):
 	    	t2.setDaemon(True)
 		pos.updateY(order[1])
 	    if order[2] != None:
-		t3 = threading.Thread(target=motors[2].moveZ, args=(order[2], pos.z))
+		t3 = threading.Thread(target=motors[2].move, args=(order[2], pos.z))
 		t3.setDaemon(True)
 		pos.updateZ(order[2])
 	    if order[3] != None:
-		t4 = threading.Thread(target=motors[3].moveExtruder, args=(order[3], pos.e))
+		t4 = threading.Thread(target=motors[3].move, args=(order[3], pos.e))
 		t4.setDaemon(True)
 		pos.updateE(order[3])
 	    
@@ -553,7 +553,7 @@ def p_gCommand_gWord(p):
 		t4.join()
 	    except: pass
 	    
-	    GPIO.cleanup()
+#	    GPIO.cleanup()
            
 	    order = threader.zeroOut(order)
 	    # pos.update(order[0],order[1],order[2])
@@ -570,8 +570,8 @@ def p_gCommand_gWord(p):
 
     if p[1] == 'G28':
         print("G28- MOVE TO ORIGIN, capture doesnt matter for RepRep")
-	returnHome.returnHomeX(motors) # Needs direct testing with serial switch
-	returnHome.returnHomeY(motors)
+	returnHome.returnHome(motors) # Needs direct testing with serial switch
+	
 
     if p[1] == 'G92':
         # A G92 without coordinates will reset all axes to zero.
@@ -580,10 +580,62 @@ def p_gCommand_gWord(p):
 	    pos.update(0, 0, 0)
         if len(p) == 4:
             print("G92 -SET POSITION, one gWord param", p[2], p[3])
+            if p[2] == 'X':
+                pos.updateX(p[3])
+            if p[2] == 'Y':
+	        pos.updateY(p[3])
+	    if p[2] == 'Z':
+		pos.updateZ(p[3])
+	    if p[2] == 'E':
+				pos.updateE(p[3])
+			
         if len(p) == 6:
             print("G92 -SET POSITION, 2 gWord param", p[2], p[3], p[4], p[5])
+            if p[2] == 'X':
+                pos.updateX(p[3])
+            if p[2] == 'Y':
+                pos.updateY(p[3])
+            if p[2] == 'Z':
+                pos.updateZ(p[3])
+            if p[2] == 'E':
+                pos.updateE(p[3])
+		
+            if p[4] == 'X':
+                pos.updateX(p[5])
+            if p[4] == 'Y':
+                pos.updateY(p[5])
+            if p[4] == 'Z':
+                pos.updateZ(p[5])
+            if p[4] == 'E':
+				pos.updateE(p[5])
         if len(p) == 8:
             print("G92 -SET POSITION, 3 gWord param", p[2], p[3], p[4], p[5], p[6], p[7])
+            if p[2] == 'X':
+                pos.updateX(p[3])
+            if p[2] == 'Y':
+                pos.updateY(p[3])
+            if p[2] == 'Z':
+                pos.updateZ(p[3])
+            if p[2] == 'E':
+                pos.updateE(p[3])
+			
+            if p[4] == 'X':
+                pos.updateX(p[5])
+            if p[4] == 'Y':
+                pos.updateY(p[5])
+            if p[4] == 'Z':
+                pos.updateZ(p[5])
+            if p[4] == 'E':
+                pos.updateE(p[5])
+			
+            if p[6] == 'X':
+                pos.updateX(p[7])
+            if p[6] == 'Y':
+                pos.updateY(p[7])
+            if p[6] == 'Z':
+                pos.updateZ(p[7])
+            if p[6] == 'E':
+                pos.updateE(p[7])
 
     if p[1] == 'M85':
         if p[2] == 'P':
@@ -596,7 +648,7 @@ def p_gCommand_gWord(p):
 
     if p[1] == 'M104':
         print("M104 Set Temp to: ", p[3])
-	Vars.temperature = p[3]
+	Vars.targetTemp = p[3]
 
     if p[1] == 'M106':
         print("M106 FAN ON to: ", p[3])
@@ -604,7 +656,10 @@ def p_gCommand_gWord(p):
 
     if p[1] == 'M109':
         print("M109 set temp to : ", p[3], " and WAIT")
-	Vars.temperature = p[3]
+	Vars.targetTemp = p[3]
+	while Vars.curTemp < Vars.targetTemp:
+		print Vars.curTemp
+		time.sleep(2)
 
     if p[1] == 'M140':	# PrintrBot Simple does not come standard with BedTemp -- Stretch Goal?
         if len(p) == 4:
@@ -814,6 +869,7 @@ import threading	# run concurrent motors
 import threader		# really more of a 'parser' -- needs a rename
 import time
 import returnHome
+import heating
  
 from printHead import PrintHead
 pos = PrintHead()
@@ -821,27 +877,32 @@ print("Initial Printer Position ", pos.x, pos.y, pos.z)
 
 from motor import motor
 motors = [None]*4
-motors[0] = motor("x", Vars.xDIR, Vars.xSTEP)
-motors[1] = motor("y", Vars.yDIR, Vars.ySTEP)
-motors[2] = motor("z", Vars.zDIR, Vars.zSTEP)
-motors[3] = motor("e", Vars.eDIR, Vars.eSTEP)
+motors[0] = motor("x", Vars.xDIR, Vars.xSTEP, Vars.xMaxFeedrate, Vars.xSteps)
+motors[1] = motor("y", Vars.yDIR, Vars.ySTEP, Vars.yMaxFeedrate, Vars.ySteps)
+motors[2] = motor("z", Vars.zDIR, Vars.zSTEP, Vars.zMaxFeedrate, Vars.zSteps)
+motors[3] = motor("e", Vars.eDIR, Vars.eSTEP, Vars.eMaxFeedrate, Vars.eSteps, 1)
 
-import ply.yacc as yacc
-parser = yacc.yacc()
+try:
+	temperature = threading.Thread(name='temp', target=heating.run)
+	temperature.setDaemon(True)
+	temperature.start()
 
-'''f = open('lexTest.g', 'r')
-for lin in f:
-    s1= lin
-    lex.input(s1)
-    for tok in lexer:
-        print tok'''
 
-f = open(sys.argv[1], 'r')
-num = 0
+	import ply.yacc as yacc
+	parser = yacc.yacc()
 
-for line in f:
-    s = line
-    # print(s)
-    parser.parse(s)
-    print num
-    num = num +1
+	f = open(sys.argv[1], 'r')
+	num = 0
+
+	for line in f:
+	    s = line
+	    # print(s)
+	    parser.parse(s)
+	    print num
+	    num = num +1
+except KeyboardInterrupt:
+	print "keyboard interruption"
+except: 
+	traceback.print_exc(file=sys.stdout)
+finally:
+	GPIO.cleanup()
